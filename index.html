@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+	<!--  http://my.safaribooksonline.com/book/-/9781782165187/instant-easeljs-starter/pr01_html?percentage=&reader=html#X2ludGVybmFsX0h0bWxWaWV3P3htbGlkPTk3ODE3ODIxNjUxODclMkZwcjA3czA0X2h0bWwmcXVlcnk9 -->
+	
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
   <title>EaselJS Starter: Template Page</title>
   <script src="lib/easeljs-0.6.1.min.js"></script>
@@ -14,7 +17,7 @@
 	  graphic.beginStroke(createjs.Graphics.getRGB(0,0,0));
 	  graphic.setStrokeStyle(3);
 	  graphic.beginFill("#FFC000");
-	  graphic.drawCircle(100,100,30);
+	  graphic.drawPolyStar(140,140,80,5,0.6,-90);
 	  shape = new createjs.Shape(graphic);
 	  stage.addChild(shape);
 	  stage.update();
