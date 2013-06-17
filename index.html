@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+  <title>EaselJS Starter: Template Page</title>
+  <script src="lib/easeljs-0.6.1.min.js"></script>
+  <script>  
+  // Your code here
+  function init() {   
+	  var canvas = document.getElementById("mycanvas");
+	  var stage = new createjs.Stage(canvas);
+	  
+	  var graphic = new createjs.Graphics();
+	  graphic.beginStroke(createjs.Graphics.getRGB(0,0,0));
+	  graphic.setStrokeStyle(3);
+	  graphic.beginFill("#FFC000");
+	  graphic.drawCircle(100,100,30);
+	  shape = new createjs.Shape(graphic);
+	  stage.addChild(shape);
+	  stage.update();
+	  
+	  setTimeout(function () {
+		  shape.graphics.clear();
+		  stage.update();
+	  }, 1000)
+	  
+	}
+  </script>
+</head>
+  
+<body onload="init();" style="background-color:#CCCCCC">  
+  <h1> EaselJS Starter: Template page </h1>  
+  <canvas id="mycanvas" width="960" height="450"style="background-color:#FFFFFF"></canvas>  
+</body>
+</html>
