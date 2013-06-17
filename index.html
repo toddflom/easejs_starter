@@ -8,26 +8,23 @@
   <title>EaselJS Starter: Template Page</title>
   <script src="lib/easeljs-0.6.1.min.js"></script>
   <script>  
-  // Your code here
-  function init() {   
-	  var canvas = document.getElementById("mycanvas");
-	  var stage = new createjs.Stage(canvas);
-	  
-	  var graphic = new createjs.Graphics();
-	  graphic.beginStroke(createjs.Graphics.getRGB(0,0,0));
-	  graphic.setStrokeStyle(3);
-	  graphic.beginFill("#FFC000");
-	  graphic.drawPolyStar(140,140,80,5,0.6,-90);
-	  shape = new createjs.Shape(graphic);
-	  stage.addChild(shape);
-	  stage.update();
-	  
-	  setTimeout(function () {
-		  shape.graphics.clear();
-		  stage.update();
-	  }, 1000)
-	  
-	}
+
+  var stage;
+  var canvas;
+  function init() {
+    canvas = document.getElementById("mycanvas");
+    stage = new createjs.Stage(canvas);    
+    var image = new Image();
+    image.onload = onImageLoaded;
+    image.src = "images/Sun.png"; 
+  }
+  function onImageLoaded (event) {
+      var thesun = new createjs.Bitmap(event.target)
+      thesun.x = 50;
+      thesun.y = 50;
+      stage.addChild(thesun)
+      stage.update();
+  }
   </script>
 </head>
   
