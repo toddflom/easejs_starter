@@ -1,0 +1,6 @@
+INDEX VERSION 1.122+/Users/toddflom/Desktop/MAMP root/easejs/easejs_starter/.metadata/.plugins/org.eclipse.wst.jsdt.core/indexes
+1168521234.index
+308529575.index
+4253419159.index
+4228973363.index
+957800159.index

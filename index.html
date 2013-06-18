@@ -7,24 +7,123 @@
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
   <title>EaselJS Starter: Template Page</title>
   <script src="lib/easeljs-0.6.1.min.js"></script>
+  <script src="lib/preloadjs-0.3.1.min.js"></script>
+  <script src="lib/tweenjs-0.4.1.min.js"></script>
   <script>  
 
-  var stage;
-  var canvas;
-  function init() {
-    canvas = document.getElementById("mycanvas");
-    stage = new createjs.Stage(canvas);    
-    var image = new Image();
-    image.onload = onImageLoaded;
-    image.src = "images/Sun.png"; 
-  }
-  function onImageLoaded (event) {
-      var thesun = new createjs.Bitmap(event.target)
-      thesun.x = 50;
-      thesun.y = 50;
-      stage.addChild(thesun)
-      stage.update();
-  }
+	var stage, canvas, queue, group;
+	
+	function init()
+	{
+		canvas = document.getElementById("mycanvas");
+		stage = new createjs.Stage(canvas);
+		
+		stage.enableMouseOver(20);
+		
+		preloadAssets();
+		
+		createjs.Ticker.addListener(this);
+		createjs.Ticker.setFPS(45);
+	}
+	
+	function tick()
+	{
+		stage.update();
+	}
+	
+	function preloadAssets()
+	{
+		  manifest = [    
+		              // PREVIOUS
+		              {src:"images/window.png", id:"img_win"},
+		              {src:"images/sun.png", id:"img_sun"},
+		              // NEW ASSETS
+		              {src:"images/head_man.png", id:"img_head"},
+		              {src:"images/body_man.png", id:"img_body"},
+		              {src:"images/desk.png", id:"img_desk"}
+		              ];
+		// Start Preload
+		queue = new createjs.LoadQueue();
+		queue.addEventListener("fileload", preloadFileLoaded);
+		queue.addEventListener("complete", preloadCompleted);
+		queue.loadManifest(manifest);
+	}
+	
+	function preloadFileLoaded(event) 
+	{
+		console.log("LOADING PERCENTAGE", queue.progress);
+	}
+	
+	function preloadCompleted()
+	{
+		createUI();
+	}
+	
+	function createUI()
+	{
+		// Main container (added to stage)
+		group = new createjs.Container();
+		stage.addChild(group);
+		// SUN
+		var thesun = new createjs.Bitmap(queue.getResult("img_sun"));
+		thesun.x = 100;
+		thesun.y = 40;
+		group.addChild(thesun);
+		
+		thesun.cursor = "pointer";
+		thesun.addEventListener("click", function(event) {
+			createjs.Tween.get(event.target)
+				.to({x: 300, y: 10}, 2000,
+						createjs.Ease.cubicInOut);
+		})
+		
+		
+		// WINDOW
+		var win = new createjs.Bitmap(queue.getResult("img_win"));
+		win.x = 70;
+		win.y = 0;
+		group.addChild(win);
+		// BODY
+		var body = new createjs.Bitmap(queue.getResult("img_body"));
+		body.x = 170;
+		body.y = 70;
+		group.addChild(body);
+		// HEAD
+		var head = new createjs.Bitmap(queue.getResult("img_head"));
+		head.x = 232;
+		head.y = 15;
+		group.addChild(head);
+		
+		head.cursor = "pointer";
+		head.addEventListener("click", function(event) {
+			createjs.Tween.removeTweens(head)
+			createjs.Tween.get(head)
+					.to({rotation:10}, 1500, createjs.Ease.quintInOut)
+					.wait(1500)
+					.to({rotation:-5}, 1500, createjs.Ease.quintInOut)
+					.wait(500)
+					.to({rotation:0}, 1500, createjs.Ease.quintInOut);
+		})
+		
+		// DESK
+		var desk = new createjs.Bitmap(queue.getResult("img_desk"));
+		desk.x = 10;
+		desk.y = 100;
+		group.addChild(desk);
+		// SET CONTAINER POSITION
+		group.regX = desk.image.width / 2;
+		group.regY = body.image.height / 2;
+		updatePos();
+	}
+	
+	function updatePos ()
+	{
+		group.x = canvas.width/2;
+		group.y = canvas.height/2;
+	}
+	
+  
+  
   </script>
 </head>
   

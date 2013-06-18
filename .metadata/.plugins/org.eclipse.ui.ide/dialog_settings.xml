@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<list key="installedFeatures">
+		<item value="org.eclipse.dltk.core.index:4.0.0.v201203211928-7D--9oB58B5EB88WBT"/>
+		<item value="org.eclipse.dltk.core:4.0.0.v201203211928-81--FE-z0Vkz0WEz0kmj0T"/>
+		<item value="org.eclipse.draw2d:3.8.0.201203180207"/>
+		<item value="org.eclipse.emf.common.ui:2.7.0.v20120130-0943"/>
+		<item value="org.eclipse.emf.common:2.7.0.v20120127-1122"/>
+		<item value="org.eclipse.emf.ecore.edit:2.7.1.v20120130-0943"/>
+		<item value="org.eclipse.emf.ecore:2.7.1.v20120127-1122"/>
+		<item value="org.eclipse.emf.edit.ui:2.7.0.v20120130-0943"/>
+		<item value="org.eclipse.emf.edit:2.7.2.v20120130-0943"/>
+		<item value="org.eclipse.gef:3.8.0.201203180207"/>
+		<item value="org.eclipse.help:1.3.0.v20110530-0844-7i7uFFmFFl8nvqbDpEqTvx"/>
+		<item value="org.eclipse.php:3.0.1.v201205011322"/>
+		<item value="org.eclipse.platform:3.7.2.v20120207-1839-9gF7UHPDFxGjd-PqDr2jX_4yKaumkoHTz04_q-q"/>
+		<item value="org.eclipse.rcp:3.7.2.v20120120-1424-9DB5FmnFq5JCf1UA38R-kz0S0272"/>
+		<item value="org.eclipse.wst.common.fproj:3.3.2.v201201121600-377DH8s735735535DD9"/>
+		<item value="org.eclipse.xsd.edit:2.7.0.v20120130-0943"/>
+		<item value="org.eclipse.xsd:2.7.1.v20120130-0943"/>
+		<item value="org.zend.php.common:1.0.0.201206111209-7B-1773573F55573L"/>
+	</list>
+	<section name="ExternalProjectImportWizard">
+		<item value="false" key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED"/>
+		<item value="false" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
+	</section>
+	<section name="NewWizardAction">
+		<item value="org.eclipse.wst.jsdt.ui.wizards.JavaProjectWizard" key="NewWizardSelectionPage.STORE_SELECTED_ID"/>
+		<list key="NewWizardSelectionPage.STORE_EXPANDED_CATEGORIES_ID">
+			<item value="org.eclipse.wst.jsdt.ui.java"/>
+		</list>
+	</section>
+</section>
