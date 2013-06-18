@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<!--  http://my.safaribooksonline.com/book/-/9781782165187/instant-easeljs-starter/pr01_html?percentage=&reader=html#X2ludGVybmFsX0h0bWxWaWV3P3htbGlkPTk3ODE3ODIxNjUxODclMkZwcjA3czA0X2h0bWwmcXVlcnk9 -->
+	
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta names="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>EaselJS Starter: Template Page</title>
+  <style type="text/css">
+  		html, body {padding:0;margin:0;}
+  </style>
+  <script src="lib/easeljs-0.6.1.min.js"></script>
+  <script src="lib/preloadjs-0.3.1.min.js"></script>
+  <script src="lib/tweenjs-0.4.1.min.js"></script>
+  <script>  
+
+	var stage, canvas, queue, group;
+	
+	function init()
+	{
+		canvas = document.getElementById("mycanvas");
+		stage = new createjs.Stage(canvas);
+		
+		stage.enableMouseOver(20);
+		if (createjs.Touch.isSupported()) 
+		{
+			createjs.Touch.enable(stage);
+		}
+		
+		preloadAssets();
+		
+		createjs.Ticker.addListener(this);
+		createjs.Ticker.setFPS(45);
+		
+		window.addEventListener("resize", updatePos, false);
+	}
+	
+	function tick()
+	{
+		stage.update();
+	}
+	
+	function preloadAssets()
+	{
+		  manifest = [    
+		              // PREVIOUS
+		              {src:"images/window.png", id:"img_win"},
+		              {src:"images/sun.png", id:"img_sun"},
+		              // NEW ASSETS
+		              {src:"images/head_man.png", id:"img_head"},
+		              {src:"images/body_man.png", id:"img_body"},
+		              {src:"images/desk.png", id:"img_desk"},
+		              {src:"images/airplane.png", id:"img_air"},
+		              {src:"images/SkyBoom.png", id:"img_cloud"}
+		              ];
+		// Start Preload
+		queue = new createjs.LoadQueue();
+		queue.addEventListener("fileload", preloadFileLoaded);
+		queue.addEventListener("complete", preloadCompleted);
+		queue.loadManifest(manifest);
+	}
+	
+	function preloadFileLoaded(event) 
+	{
+		console.log("LOADING PERCENTAGE", queue.progress);
+	}
+	
+	function preloadCompleted()
+	{
+		createUI();
+		createAirplane();
+		createCloud();
+	}
+	
+	function createUI()
+	{
+		// Main container (added to stage)
+		group = new createjs.Container();
+		stage.addChild(group);
+		// SUN
+		var thesun = new createjs.Bitmap(queue.getResult("img_sun"));
+		thesun.x = 100;
+		thesun.y = 40;
+		group.addChild(thesun);
+		
+		thesun.cursor = "pointer";
+		thesun.addEventListener("click", function(event) {
+			createjs.Tween.get(event.target)
+				.to({x: 300, y: 10}, 2000,
+						createjs.Ease.cubicInOut);
+		})
+		
+		
+		// WINDOW
+		var win = new createjs.Bitmap(queue.getResult("img_win"));
+		win.x = 70;
+		win.y = 0;
+		group.addChild(win);
+		// BODY
+		var body = new createjs.Bitmap(queue.getResult("img_body"));
+		body.x = 170;
+		body.y = 70;
+		group.addChild(body);
+		// HEAD
+		var head = new createjs.Bitmap(queue.getResult("img_head"));
+		head.regX = 40;
+		head.regY = 80;
+		head.x = 272;
+		head.y = 95;
+		group.addChild(head);	
+		
+		head.cursor = "pointer";
+		head.addEventListener("click", function(event) {
+			createjs.Tween.removeTweens(head)
+			createjs.Tween.get(head)
+					.to({rotation:10}, 1500, createjs.Ease.quintInOut)
+					.wait(1500)
+					.to({rotation:-5}, 1500, createjs.Ease.quintInOut)
+					.wait(500)
+					.to({rotation:0}, 1500, createjs.Ease.quintInOut);
+		})
+		
+		// DESK
+		var desk = new createjs.Bitmap(queue.getResult("img_desk"));
+		desk.x = 10;
+		desk.y = 100;
+		group.addChild(desk);
+		// SET CONTAINER POSITION
+		group.regX = desk.image.width / 2;
+		group.regY = body.image.height / 2;
+		updatePos();
+	}
+	
+	function updatePos ()
+	{
+		if (window.innerWidth < 300)
+		{
+			group.scaleX = group.scaleY = 0.6;
+		}
+		else
+		{
+			group.scaleX = group.scaleY = 1.0;
+		}
+		// Set canvas width/height to fullscreen
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+		// Set group container position to center
+		group.x = canvas.width/2;
+		group.y = canvas.height/2;
+	}
+	
+	function createAirplane ()
+	{
+		var airplaneCanvas = new createjs.Container();
+		stage.addChild(airplaneCanvas);
+		var airplane = new createjs.Bitmap(queue.getResult("img_air"));
+		airplaneCanvas.addChild(airplane);
+		var nameTxt = new createjs.Text("PETER", "28px Arial", "#222222");
+		nameTxt.x = 190;
+		nameTxt.y = 90;
+		nameTxt.rotation = -5;
+		airplaneCanvas.addChild(nameTxt);
+		// Animate airplane from right to left
+		airplaneCanvas.x = canvas.width;
+		createjs.Tween.get(airplaneCanvas)
+				.to({x: -airplane.image.width}, 15000, createjs.Ease.linear);
+	}
+	
+  	function createCloud ()
+  	{
+ 		var ss = new createjs.SpriteSheet({
+  			"images": ["images/SkyBoom.png"], 
+  	  		"frames": [[2, 2, 252, 252, 0, -2, -2], 
+  	  		           [258, 2, 252, 252, 0, -2, -2], 
+  	  		           [514, 2, 252, 252, 0, -2, -2], 
+  	  		           [770, 2, 252, 252, 0, -2, -2], 
+  	  		           [1026, 2, 252, 252, 0, -2, -2], 
+  	  		           [1282, 2, 252, 252, 0, -2, -2], 
+  	  		           [1538, 2, 252, 252, 0, -2, -2], 
+  	  		           [1794, 2, 252, 252, 0, -2, -2], 
+  	  		           [2, 258, 252, 252, 0, -2, -2], 
+  	  		           [258, 258, 252, 252, 0, -2, -2], 
+  	  		           [514, 258, 252, 252, 0, -2, -2]], 
+  	  		"animations": {"boom": 
+  	  		{"frames": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}, 
+  	  		"all": {"frames": [0]}}
+  		});
+   		var cloud = new createjs.BitmapAnimation(ss);
+  		cloud.cursor = "pointer";
+  		cloud.x = 300;
+  		cloud.y = 0;
+  		stage.addChild(cloud);
+  		cloud.gotoAndStop(0);
+  		cloud.addEventListener("click", function(event) {
+  			event.target.gotoAndPlay("boom");
+  		})
+  		cloud.addEventListener("animationend", function(event) {
+  			event.target.visible = false;
+  			event.target.stop();
+  		})
+  	}
+  	  	
+  
+  </script>
+</head>
+  
+<body onload="init();" onorientationchange="updatePos();" style="background-color:#CCCCCC">  
+  <h3> EaselJS Starter: Template page </h3>  
+  <canvas id="mycanvas" width="960" height="450"style="background-color:#FFFFFF"></canvas>  
+</body>
+</html>
