@@ -11,33 +11,61 @@
  </head>
  <body>
   <canvas id="canvas" width="400" height="400"></canvas>
+  <textarea id="log"></textarea>
   <script src="lib/utils.js"></script>
-  <script>
+  <script src="lib/ball.js"></script>
+  <script src="lib/arrow.js"></script>
+  <script src="lib/ship.js"></script>
+   <script>
 	
   	window.onload = function() 
   	{
 
-		var canvas = document.getElementById('canvas'),
-			context = canvas.getContext('2d'),
-			mouse = utils.captureMouse(canvas);
-		
-		function onMouseMove () 
-		{
-			context.lineTo(mouse.x, mouse.y);
-			context.stroke();
-		}
-		
-		canvas.addEventListener('mousedown', function() {
-			context.beginPath();
-			context.moveTo(mouse.x, mouse.y);
-			canvas.addEventListener('mousemove', onMouseMove, false);
-		}, false);
-		
-		canvas.addEventListener('mouseup', function () {
-			canvas.removeEventListener('mousemove', onMouseMove, false);
-		}, false);
-		
- 	};
+  		var canvas = document.getElementById('canvas'),
+        context = canvas.getContext('2d'),
+        log = document.getElementById('log'),
+        balls = [],
+        numBalls = 10;
+
+	    for (var ball, i = 0; i < numBalls; i++) {
+	      ball = new Ball(20);
+	      ball.id = "ball" + i;
+	      ball.x  = Math.random() * canvas.width;
+	      ball.y  = Math.random() * canvas.height;
+	      ball.vx = Math.random() * 2 - 1;
+	      ball.vy = Math.random() * 2 - 1;
+	      balls.push(ball);
+	    }
+	
+	    function draw (ball, pos) {
+	      ball.x += ball.vx;
+	      ball.y += ball.vy;
+	      if (ball.x - ball.radius > canvas.width ||
+	          ball.x + ball.radius < 0 ||
+	          ball.y - ball.radius > canvas.height ||
+	          ball.y + ball.radius < 0) {
+	        balls.splice(pos, 1); //remove ball from array
+	        if (balls.length > 0) {
+	          log.value = "Removed " + ball.id;
+	        } else {
+	          log.value = "All gone!";
+	        }
+	      }
+	      ball.draw(context);
+	    }
+	
+	    (function drawFrame () {
+	      window.requestAnimationFrame(drawFrame, canvas);
+	      context.clearRect(0, 0, canvas.width, canvas.height);
+	
+	      var i = balls.length;
+	      while (i--) {
+	        draw(balls[i], i);
+	      }
+	    }());
+	    
+	    
+  	};
 
   </script>
  </body>
