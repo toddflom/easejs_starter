@@ -23,7 +23,6 @@
   <script src="lib/utils.js"></script>
   <script src="lib/point3d.js"></script>
   <script src="lib/PointsSet.js"></script>
-   <script src="lib/marker.js"></script>
     <script>
 	
      
@@ -32,36 +31,40 @@
 
   		var canvas = document.getElementById('canvas'),
         context = canvas.getContext('2d'),
-       	mouse = utils.captureMouse(canvas),
+        
+      	mouse = utils.captureMouse(canvas),
         // points = [],
 		//  fl = 250,
         vpX = canvas.width / 2,
         vpY = canvas.height / 8,
         canHeight = canvas.height,
         canWidth = canvas.width;
-     	
+  		    	
      	var mZ;
+     	var mX = 300;
      	var tiles = [];
-     	var zPos = -100;
+     	var zPos = 4000;
+     	var tilesLength = zPos;
      	
+     	var isEven = false
      	
-     	for (var i=0; i<40; i++) {
+     	 
+     	
+     	for (var i=40; i > -1; i--) {
      		var activeTile = createTile();
      	}
-     	
-     	var tilesLength = zPos;
-    		    
 	    
 	    function createTile() {
-	    	var tile = new PointsSet(0, 100, zPos, vpX, vpY);
+	    	
+	    	var markerpos = 0;
+	    	if (isEven) {markerpos = 150;}
+	    	
+	    	var tile = new PointsSet(0, 100, zPos, vpX, vpY, markerpos);
 	    	tiles.push(tile);
-		    zPos += 100;
+		    zPos -= 100;
+		    isEven = !isEven;
 	 	    return tile;
 	    }
-
-
-     //	var image = new Marker("images/markerRed.png", 0, 400, 50, 57, vpX, vpY);     
-   //  	var image2 = new Marker("images/markerRed.png", -20, 2000, 50, 57, vpX, vpY);     
 
 	    
 	    function drawTile (tile) {
@@ -79,15 +82,10 @@
 			
 			mZ = mouse.y / canHeight;
 			mX = mouse.x - (canWidth / 2);
-
+			
 			tiles.forEach(moveZ);
 			tiles.forEach(drawTile);
-			
-		//	moveZ(image);
-		//	moveZ(image2);
-		//	image.draw(context);
-		//	image2.draw(context);
-			
+					
 				     
 	    }());
 	    
